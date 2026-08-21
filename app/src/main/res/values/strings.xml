@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Тривога Київ</string>
+
+    <string name="notification_channel_name">Моніторинг тривоги</string>
+    <string name="notification_channel_description">Фонова служба стежить за повітряною тривогою в Києві</string>
+    <string name="notification_title_idle">Тривога Київ</string>
+    <string name="notification_text_idle">Спокійно. Стежимо за тривогою.</string>
+    <string name="notification_title_active">Повітряна тривога!</string>
+    <string name="notification_text_active">Тривога в Києві. Торкніться, щоб відкрити застосунок.</string>
+
+    <string name="status_alert">ТРИВОГА</string>
+    <string name="status_clear">Спокійно</string>
+
+    <string name="connection_live">З\'єднання активне</string>
+    <string name="connection_connecting">Підключення…</string>
+    <string name="connection_reconnecting">Перепідключення…</string>
+    <string name="connection_fallback">Резервний режим (REST)</string>
+    <string name="connection_failed">Немає з\'єднання</string>
+
+    <string name="button_test_alert">Тест сирени</string>
+    <string name="button_test_clear">Тест відбою</string>
+    <string name="button_stop_sound">Зупинити звук</string>
+    <string name="button_disable_battery_optimization">Вимкнути обмеження батареї</string>
+
+    <string name="disclaimer_unofficial">NEPTUN — неофіційне джерело даних про тривоги, не офіційна система оповіщення.</string>
+
+    <string name="areas_list_title">Активні тривоги (для звірки ключів)</string>
+    <string name="area_active">активна</string>
+    <string name="area_inactive">—</string>
+</resources>
