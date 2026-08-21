@@ -25,6 +25,7 @@ data class AlertArea(
     val title: String,
     val active: Boolean,
     val since: Long?,
+    val type: String? = null,
 )
 
 /**
@@ -208,7 +209,11 @@ class NeptunClient(
                 else -> true
             }
             val since = if (obj.has("since")) obj.optLong("since") else null
-            areas[key] = AlertArea(key = key, title = title, active = active, since = since)
+            val type = obj.optString(
+                "type",
+                obj.optString("kind", obj.optString("category", obj.optString("threatType", ""))),
+            ).ifEmpty { null }
+            areas[key] = AlertArea(key = key, title = title, active = active, since = since, type = type)
         }
     }
 

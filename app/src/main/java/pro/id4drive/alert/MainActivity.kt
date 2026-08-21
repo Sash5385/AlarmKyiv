@@ -11,7 +11,9 @@ import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,11 +29,13 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -51,7 +55,7 @@ class MainActivity : ComponentActivity() {
         ContextCompat.startForegroundService(this, Intent(this, AlertService::class.java))
 
         setContent {
-            MaterialTheme {
+            MaterialTheme(colorScheme = darkColorScheme()) {
                 AlertScreen(onRequestIgnoreBatteryOptimizations = { requestIgnoreBatteryOptimizations() })
             }
         }
@@ -82,7 +86,11 @@ private fun AlertScreen(onRequestIgnoreBatteryOptimizations: () -> Unit) {
     val context = LocalContext.current
     val state by AlertState.state.collectAsState()
 
-    Surface(modifier = Modifier.fillMaxSize()) {
+    val backgroundGradient = Brush.verticalGradient(
+        colors = listOf(Color(0xFF123C8C), Color(0xFF0A1A3D), Color.Black),
+    )
+
+    Box(modifier = Modifier.fillMaxSize().background(backgroundGradient)) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -120,7 +128,11 @@ private fun AlertScreen(onRequestIgnoreBatteryOptimizations: () -> Unit) {
             )
 
             Spacer(Modifier.height(16.dp))
-            Text(text = stringResource(R.string.areas_list_title), fontWeight = FontWeight.Bold)
+            Text(
+                text = stringResource(R.string.areas_list_title),
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+            )
             Spacer(Modifier.height(8.dp))
             LazyColumn(modifier = Modifier.weight(1f)) {
                 items(state.areas.sortedByDescending { it.active }) { area -> AreaRow(area) }
@@ -168,12 +180,17 @@ private fun AreaRow(area: AlertArea) {
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Column {
-            Text(text = area.title, fontWeight = if (area.active) FontWeight.Bold else FontWeight.Normal)
-            Text(text = area.key, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                text = area.title,
+                fontWeight = if (area.active) FontWeight.Bold else FontWeight.Normal,
+                color = Color.White,
+            )
+            val subtitle = if (area.type != null) "${area.key} · ${area.type}" else area.key
+            Text(text = subtitle, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         Text(
             text = if (area.active) stringResource(R.string.area_active) else stringResource(R.string.area_inactive),
-            color = if (area.active) Color(0xFFB3261E) else MaterialTheme.colorScheme.onSurfaceVariant,
+            color = if (area.active) Color(0xFFFF6B5B) else MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }
