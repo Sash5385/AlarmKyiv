@@ -50,6 +50,7 @@ class NeptunClient(
     private var stopped = true
 
     private val areas = mutableMapOf<String, AlertArea>()
+    private val loggedFrameTypes = mutableSetOf<String>()
 
     fun start() {
         stopped = false
@@ -161,6 +162,13 @@ class NeptunClient(
         try {
             val root = JSONObject(text)
             val type = root.optString("type", "")
+
+            // ТИМЧАСОВО: один сирий приклад на кожен новий тип фрейму — щоб звірити
+            // реальну схему NEPTUN у Logcat (фільтр за тегом NeptunClient). Прибрати
+            // після підтвердження полів alertOblasts/alerts.
+            if (loggedFrameTypes.add(type)) {
+                Log.d(TAG, "Новий тип фрейму \"$type\": ${text.take(4000)}")
+            }
 
             val dataNode: JSONObject = when {
                 root.opt("data") is JSONObject -> root.getJSONObject("data")
